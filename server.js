@@ -19,13 +19,13 @@ if (cluster.isPrimary) {
       if (id && ytdl.validateID(id)) {
         const info = await ytdl.getInfo(id);
         res
-          .status(200)
+          .sendStatus(200)
           .json({ url: info.formats.filter((i) => i.itag === 18)[0].url });
       } else {
-        res.send(404).send();
+        res.sendStatus(404).send();
       }
     } catch (error) {
-      res.send(500).json({ error: error });
+      res.sendStatus(500).json({ error: error });
     }
   });
 
