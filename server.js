@@ -6,18 +6,17 @@ const port = process.env.PORT || 4000;
 
 app.use(cors());
 app.get("/", async (req, res) => {
+  const id = req.query.url;
   try {
-    const id = req.query.url;
-    if (id && ytdl.validateID(id)) {
+    if (id) {
       const info = await ytdl.getInfo(id);
+
       res
-        .sendStatus(200)
+        .status(200)
         .json({ url: info.formats.filter((i) => i.itag === 18)[0].url });
-    } else {
-      res.sendStatus(404).send();
     }
   } catch (error) {
-    res.sendStatus(500).json({ error: error });
+    res.status(500).json({ error: error.message });
   }
 });
 
